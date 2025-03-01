@@ -19,13 +19,13 @@ jobs:
         uses: microsoft/setup-msbuild@v1.3.1
 
       - name: Restaurar dependências com NuGet
-        run: nuget restore MeuProjeto.sln
+        run: nuget restore dotnet-framework-package.sln
 
       - name: Compilar com MSBuild
-        run: msbuild MeuProjeto.sln /p:Configuration=Release
+        run: msbuild dotnet-framework-package.sln /p:Configuration=Release
 
       - name: Criar pacote NuGet
-        run: nuget pack MeuProjeto.csproj -OutputDirectory nupkg
+        run: nuget pack dotnet-framework-package.csproj -OutputDirectory nupkg
 
       - name: Publicar no GitHub Packages
         run: nuget push nupkg/*.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/" -ApiKey ${{ secrets.GITHUB_TOKEN }} -SkipDuplicate
