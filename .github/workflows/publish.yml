@@ -3,7 +3,7 @@ name: Publish to GitHub Packages
 on:
   push:
     branches:
-      - main  # Ou outra branch que deseja monitorar
+      - main  # Ou outra branch desejada
   release:
     types: [created]
 
@@ -22,10 +22,10 @@ jobs:
         run: nuget restore dotnet-framework-package.sln
 
       - name: Compilar com MSBuild
-        run: msbuild dotnet-framework-package.sln /p:Configuration=Release
+        run: msbuild dotnet-framework-package.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Criar pacote NuGet
-        run: nuget pack dotnet-framework-package.csproj -OutputDirectory nupkg
+        run: nuget pack dotnet-framework-package.csproj -OutputDirectory nupkg -Build -Properties Configuration=Release
 
       - name: Publicar no GitHub Packages
         run: nuget push nupkg/*.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/" -ApiKey ${{ secrets.GITHUB_TOKEN }} -SkipDuplicate
