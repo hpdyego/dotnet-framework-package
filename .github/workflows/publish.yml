@@ -3,7 +3,7 @@ name: Publish to GitHub Packages
 on:
   push:
     branches:
-      - main  # Ou outra branch desejada
+      - main
   release:
     types: [created]
 
@@ -25,7 +25,7 @@ jobs:
         run: msbuild dotnet-framework-package.sln /p:Configuration=Release /p:Platform="Any CPU"
 
       - name: Gerar o pacote NuGet com MSBuild
-        run: msbuild dotnet-framework-package.csproj /t:pack /p:Configuration=Release /p:Platform="Any CPU"
+        run: msbuild dotnet-framework-package.csproj /t:pack /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=bin\Release\net48
 
       - name: Verificar se o pacote foi gerado
         run: dir bin\Release\net48\*.nupkg
